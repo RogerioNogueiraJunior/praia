@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pra.ia</title>
+    <link rel="stylesheet" href="/app/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Jersey+10" rel="stylesheet">
+</head>
+<body>
+    <div id="header" class="header">
+        <div class="logo">
+            <div class="imglogo">
+                <img class="coffee" src="/imagens/logo dumb coffee side.png" alt="">
+                <img class="nuvem-logo" src="/imagens/nuvem.png" alt="">
+            </div>
+        </div>
+        <div class="links">
+            <a href="">SOBRE</a>
+            <a href="">SUPORTE</a>
+            <a href="">SOCIAL</a>
+            <a href="">COMUNIDADE</a>
+        </div>
+        <div class="logsign">
+            <img src="/imagens/bt_log.png" alt="" class="button">
+            <img src="/imagens/bt_sign.png" alt="" class="button">
+        </div>
+    </div>
+
+    <div class="play">
+        <div class="play-images">
+            <p>seu escritorio na praia</p>
+            <img class="logo-praia" src="/imagens/logo.png" alt="">
+            <img class="entre-bt" src="/imagens/enterbt.png" alt="">
+        </div>
+    </div>
+
+    <div class="scrolling-wrapper">
+        <!-- Primeira cópia das nuvens -->
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+    </div>
+
+    <div class="news">
+        <p>NOTÍCIAS</p>
+        <div class="slider">
+            <div class="slides">
+                <input type="radio" name="radio-btn" id="radio1">
+                <input type="radio" name="radio-btn" id="radio2">
+                <input type="radio" name="radio-btn" id="radio3">
+                <input type="radio" name="radio-btn" id="radio4">
+                
+                <!-- slide imagens -->
+                <div class="slide first">
+                    <img src="/imagens/UserTable.png" alt="imagem1">
+                </div>
+                <div class="slide">
+                    <img src="/imagens/UserTable.png" alt="imagem2">
+                </div>
+                <div class="slide">
+                    <img src="/imagens/UserTable.png" alt="imagem3">
+                </div>
+                <div class="slide">
+                    <img src="/imagens/UserTable.png" alt="imagem4">
+                </div>
+                
+                <div class="manual-navegation">
+                    <label for="radio1" class="manual-btn"></label>
+                    <label for="radio2" class="manual-btn"></label>
+                    <label for="radio3" class="manual-btn"></label>
+                    <label for="radio4" class="manual-btn"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <img class="wave-container" src="/imagens/newsbg.png" alt="">
+    
+    <div class="footer">
+        <img src="/imagens/logo dumb coffee.png" alt="">
+        <img src="/imagens/logo.png" alt="">
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const boxes = document.querySelectorAll('.box');
+            boxes.forEach(box => {
+                const randomHeight = Math.floor(Math.random() * (700 - 600 + 1)) + 100; // Altura entre 100px e 200px
+                box.style.transform = `translateY(${randomHeight}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

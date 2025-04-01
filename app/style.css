@@ -1,0 +1,263 @@
+@import url('https://fonts.cdnfonts.com/css/8bit-wonder');
+
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Jersey 10';
+    background-color: #00CBE7;
+}
+
+body{
+    overflow-x: hidden;
+}
+
+img{
+    background-color: transparent;
+}
+
+@media(max-width: 1250px){
+    .links{
+        position: absolute;
+        flex-direction: column;
+        margin-top: 400px;
+        margin-right: 680px;
+    }
+}
+
+@media only screen and (max-width: 1250px) {
+    .play{
+      margin-top: 40px;
+    }
+  }
+
+.header{
+    display: flex;
+    width:  auto;
+    height: 100px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+
+    .logsign{
+        display: flex;
+        gap: 25px;
+        height: 70px;
+        justify-content: center;
+        align-items: center;
+    }
+    .logsign:hover{
+        cursor: pointer;
+    }
+    .button{
+        width: auto;
+        height: 70px;
+    }
+    .logo{
+        width: auto;
+        height: 70px;
+    }
+    .coffee{
+        position: absolute;
+        width: auto;
+        height: 70px;
+    }
+    .nuvem-logo{
+        width: 300px;
+        margin: -300px -150px -60px;
+        background-color: transparent;
+    }
+
+}
+
+a{
+    text-decoration: none;
+    color: white;
+    font-size: 50px;
+    background-color: transparent;
+}
+.links{
+    display: flex;
+    justify-content: space-around;
+    width: 50%;
+}
+
+.play{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 746px;
+    margin-bottom: -190px;
+    color: white;
+
+    .play-images{
+        display: flex;
+        width: 350px;
+        height: 500px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        z-index: 2;
+        background-color: transparent;
+        font-size: 40px;
+    }
+    .logo-praia{
+        width: 300px;
+        height: auto;
+    }
+
+}
+
+.wave-container {
+    background-color: transparent;
+    width: 100%;
+    height: 1300px;
+    margin-top: -800px;
+}
+
+.entre-bt:hover{
+    animation-name: float;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+    background-color: transparent;
+}
+
+@keyframes float{
+    0%{
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(-9px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
+}
+
+.scrolling-wrapper {
+    position: absolute;
+    display: flex;
+    white-space: nowrap;
+    animation: scroll 30s linear infinite; 
+    gap: 100px;
+    margin-top: -100px;
+}
+
+.box {
+    flex: 0 0 auto;
+    width: auto;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin-top: -200px;
+    background-color: transparent;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(70%);
+    }
+    100% {
+        transform: translateX(-70%);
+    }
+}
+.footer{
+    background-color: #D8993F;
+    width: 100%;
+    height: 100px;
+    margin-top: -5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+}
+.footer img{
+    height: 70px;
+}
+.slider{
+    margin: 0 auto;
+    width: 473px;
+    height: 325px;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+.slides{
+    position: absolute;
+    margin-top: 400px;
+    width: 150%;
+    height: 325px;
+    display: flex;
+    background-color: transparent;
+}
+
+.slides input{
+    display: none;
+}
+
+.slide, .slide ~ .first{
+    width: 25%;
+    position: relative;
+    transition: 2s;
+    background-color: transparent;
+}
+
+.slide img, .slide ~.first{
+    background-color: transparent;
+}
+
+.manual-navegation{
+    position: absolute;
+    width: 473px;
+    margin-top: 350px;
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+    gap: 10px;
+}
+
+.manual-btn{
+    border: 2px solid white;
+    padding: 5px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.manual-btn:hover{
+    background-color: white;
+}
+#radio1:checked ~.first{
+    margin: 0;
+    background-color: transparent;
+}
+
+#radio2:checked ~ .first{
+    margin-left: -25%;
+    background-color: transparent;
+}
+
+#radio3:checked ~ .first{
+    margin-left: -50%;
+    background-color: transparent;
+}
+
+#radio4:checked ~ .first{
+    margin-left: -75%;
+    background-color: transparent;
+}
+
+.news p{
+    position: absolute;
+    color: #ffffff;
+    font-size: 90px;
+    margin-top: 100px;
+    
+    transform: translateX(100px);
+    background-color: transparent;
+}
+
+

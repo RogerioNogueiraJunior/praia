@@ -1,0 +1,22 @@
+{
+  "name": "praia",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "epress": "^0.0.1-security",
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9",
+    "phaser": "^3.88.2",
+    "praia": "file:",
+    "ws": "^8.18.1"
+  }
+}
