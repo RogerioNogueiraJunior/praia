@@ -15,6 +15,7 @@
     "epress": "^0.0.1-security",
     "express": "^4.21.2",
     "nodemon": "^3.1.9",
+    "pg": "^8.15.6",
     "phaser": "^3.88.2",
     "praia": "file:",
     "ws": "^8.18.1"

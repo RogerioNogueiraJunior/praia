@@ -1,0 +1,33 @@
+# Node.js
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Diretórios temporários
+.tmp/
+dist/
+build/
+
+# Arquivos de configuração do ambiente local
+.env
+.env.local
+.env.*.local
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de backup
+*.bak
+*.swp
+
+# Diretórios do IDE (exemplo para VSCode)
+.vscode/
+
+# Dependências de banco de dados temporárias ou de configuração
+.pg_data/
+
+# Teste de configuração (se tiver algum arquivo de teste de configuração)
+test_output/
