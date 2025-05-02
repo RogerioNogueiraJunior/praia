@@ -5,6 +5,7 @@ const WebSocket = require('ws')
 
 
 const app = express();
+app.use(express.json());
 const server = http.createServer(app);
 const port = 8081;
 const wss = new WebSocket.Server({server});
@@ -21,28 +22,29 @@ app.use('/app', express.static(publicpath));
 const imagePath = path.join(__dirname, 'public', 'imagens');
 app.use('/imagens', express.static(imagePath));
 
-//Rota para a pagina do jogo
-app.get('/game', (req, res) => {
-    res.sendFile(path.join(publicpath, 'game/praia-game/index.html'));
-    //websocket
-    wss.on('connection', (ws) => {
-        console.log('novo cliente conectado')
+app.get('/login', (req, res)=>{
+    res.sendFile(path.join(publicpath, 'login.html'));
+})
 
-        ws.on('message', (message) => {
-            console.log(`recebido ${message}`)
-        })
+app.get('/signin', (req, res)=>{
+    res.sendFile(path.join(publicpath, 'signin.html'));
+})
 
-        ws.send(`eco ${message}`)
-    })
-
-});
 // Rota para a página inicial
 app.get('/', (req, res) => {
     res.sendFile(path.join(publicpath, 'index.html'));
 });
+
+app.get('/about', (req, res) => {
+    res.sendFile(path.join(publicpath, 'about.html'));
+  });
 
 
 // Iniciar o servidor
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);
 });
+
+
+const userRoutes = require('./routes/user'); // ajuste se o caminho for diferente
+app.use('/users', userRoutes); // agora sua rota /register estará disponível em /users/register
