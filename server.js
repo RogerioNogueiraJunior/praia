@@ -21,21 +21,14 @@ app.use('/app', express.static(publicpath));
 const imagePath = path.join(__dirname, 'public', 'imagens');
 app.use('/imagens', express.static(imagePath));
 
-//Rota para a pagina do jogo
-app.get('/game', (req, res) => {
-    res.sendFile(path.join(publicpath, 'game/praia-game/index.html'));
-    //websocket
-    wss.on('connection', (ws) => {
-        console.log('novo cliente conectado')
+app.get('/login', (req, res)=>{
+    res.sendFile(path.join(publicpath, 'login.html'));
+})
 
-        ws.on('message', (message) => {
-            console.log(`recebido ${message}`)
-        })
+app.get('/signin', (req, res)=>{
+    res.sendFile(path.join(publicpath, 'signin.html'));
+})
 
-        ws.send(`eco ${message}`)
-    })
-
-});
 // Rota para a página inicial
 app.get('/', (req, res) => {
     res.sendFile(path.join(publicpath, 'index.html'));

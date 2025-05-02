@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/app/style_form.css">
+    <link href="https://fonts.googleapis.com/css?family=Jersey+10" rel="stylesheet">
+</head>
+<body>
+    <div class="main">
+        <div class="form">
+            <a href="http://localhost:8080/"><img class="logo" src="/imagens/logo.png" alt=""></a>
+            <input type="text" placeholder="email ou username" name="" id="name">
+            <input type="password" placeholder="senha" name="" id="psw">
+            <input type="password" placeholder="confirme a senha" name="" id="psw_confirm">
+            <div class="buttons">
+                <button class="confirm"> confirm </button>
+                <button class="cancel"> cancel </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="scrolling-wrapper">
+        <!-- Primeira cópia das nuvens -->
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+        <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const boxes = document.querySelectorAll('.box');
+            boxes.forEach(box => {
+                const randomHeight = Math.floor(Math.random() * (700 - 600 + 1)) + 100; // Altura entre 100px e 200px
+                box.style.transform = `translateY(${randomHeight}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

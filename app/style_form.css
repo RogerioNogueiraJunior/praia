@@ -1,0 +1,142 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Jersey 10';
+    background-color: transparent;
+    color: white;
+    font-size: 30px;
+}
+
+body{
+    overflow-x: hidden;
+    background-color: #00CBE7;
+    background-image: url(/imagens/newsbg.png);
+    background-size: cover;
+}
+a{
+    background-color: transparent;
+}
+img{
+    background-color: transparent;
+
+}
+
+.logo:hover{
+    animation-name: float;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+    background-color: transparent;
+}
+
+@keyframes float{
+    0%{
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(-9px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
+}
+::-webkit-input-placeholder {
+    color: rgb(0, 0, 0);
+}
+
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}
+
+.form{
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url(/imagens/form_bg.png);
+    background-size: cover;
+    height: 600px;
+    width: 450px;
+}
+
+input{
+    width: 100%;
+    max-width: 270px;
+    height: 60px;
+    padding: 12px;
+    font-size: 18px;
+    color: #6b3d00;;
+    background-color: #fff;
+    border: 4px solid  #6b3d00;;
+    border-radius: 0;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 8px 8px 0 #6b3d00;
+    margin: 10px;
+}
+
+button{
+    width: 100px;
+    height: 80px;
+    border: solid;
+}
+
+button:hover{
+    width: 100px;
+    height: 80px;
+    border: solid;
+    cursor: pointer;
+}
+
+.cancel{
+    border: 4px solid  #be0000;;
+    background-color: #fa4a4a;
+}
+
+.confirm{
+    border: 4px solid  #0059be;;
+    background-color: #4a82fa;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    background-color: transparent;
+    margin-top: 20px;
+}
+
+.scrolling-wrapper {
+    display: flex;
+    white-space: nowrap;
+    animation: scroll 30s linear infinite; 
+    gap: 100px;
+    margin-top: -100px;
+}
+
+.box {
+    flex: 0 0 auto;
+    width: auto;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin-top: -200px;
+    background-color: transparent;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(70%);
+    }
+    100% {
+        transform: translateX(-70%);
+    }
+}
+
+
