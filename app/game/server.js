@@ -2,6 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import path from "path"; 
 import { Server } from "socket.io";
 
 const app = express();
@@ -10,6 +11,10 @@ const io = new Server(httpServer);
 
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const publicpath = path.join(__dirname);
+
+app.use(express.json());
+app.use('/game', express.static(publicpath));
 
 app.get('/', (req, res) => {
     res.sendFile(join(__dirname, 'index.html'));
