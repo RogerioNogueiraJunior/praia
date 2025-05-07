@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import pool from '../db.js'; // certifique-se de que db.js também usa export ES
+
 const router = express.Router();
-const pool = require('../db'); // sua conexão postgres
 
 router.post('/register', async (req, res) => {
     const { nome, email, nascimento, cargo_idcargo } = req.body;
@@ -29,4 +30,5 @@ router.post('/register', async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;
+
