@@ -21,11 +21,11 @@ const imagePath = path.join(__dirname, 'public', 'imagens');
 app.use('/imagens', express.static(imagePath));
 
 app.get('/login', (req, res) => {
-    res.sendFile(join(publicpath, 'login.html'));
+    res.sendFile(join(publicpath, '/login/login.html'));
 });
 
 app.get('/signin', (req, res) => {
-    res.sendFile(join(publicpath, 'signin.html'));
+    res.sendFile(join(publicpath, '/signin/signin.html'));
 });
 
 app.get('/', (req, res) => {
