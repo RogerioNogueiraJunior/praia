@@ -21,7 +21,27 @@ img{
     background-color: transparent;
 
 }
+.header{
+    display: flex;
+    width:  auto;
+    height: 100px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
 
+    .coffee{
+        position: absolute;
+        width: auto;
+        margin-top: 25px;
+        height: 70px;
+    }
+    .nuvem_logo{
+        width: 300px;
+        margin-left: -150px;
+        background-color: transparent;
+    }
+
+}
 .logo:hover{
     animation-name: float;
     animation-duration: 2s;
@@ -48,11 +68,9 @@ img{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 5%;
 }
 
 .form{
-    z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -61,6 +79,15 @@ img{
     background-size: cover;
     height: 600px;
     width: 450px;
+}
+
+.loginback{
+    text-decoration: none;
+    color: #1580be;
+}
+
+.loginback:hover{
+    color: white;
 }
 
 input{
@@ -79,35 +106,20 @@ input{
     margin: 10px;
 }
 
-button{
-    width: 100px;
-    height: 80px;
-    border: solid;
-}
 
-button:hover{
-    width: 100px;
-    height: 80px;
-    border: solid;
+.buttons:hover{
     cursor: pointer;
 }
 
-.cancel{
-    border: 4px solid  #be0000;;
-    background-color: #fa4a4a;
-}
 
-.confirm{
-    border: 4px solid  #0059be;;
-    background-color: #4a82fa;
-}
 
 .buttons{
     display: flex;
     flex-direction: row;
     gap: 40px;
     background-color: transparent;
-    margin-top: 20px;
+    width: 120px;
+    height: auto;
 }
 
 .scrolling-wrapper {
@@ -116,6 +128,7 @@ button:hover{
     animation: scroll 30s linear infinite; 
     gap: 100px;
     margin-top: -100px;
+    z-index: -1;
 }
 
 .box {

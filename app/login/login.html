@@ -4,19 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Praia</title>
-    <link rel="stylesheet" href="/app/style_form.css">
+    <link rel="stylesheet" href="/app/login/style_form_login.css">
     <link href="https://fonts.googleapis.com/css?family=Jersey+10" rel="stylesheet">
 </head>
 <body>
+    <div id="header" class="header">
+        <div class="nuvem-logo">
+            <div class="imglogo">
+                <img class="coffee" src="/imagens/logo dumb coffee side.png" alt="">
+                <img class="nuvem_logo" src="/imagens/nuvem.png" alt="">
+            </div>
+        </div>
+    </div>
     <div class="main">
         <div class="form">
             <a href="/"><img class="logo" src="/imagens/logo.png" alt=""></a>
             <input type="text" placeholder="email ou username" name="" id="name">
             <input type="password" placeholder="senha" name="" id="psw">
-            <input type="password" placeholder="confirme a senha" name="" id="psw_confirm">
             <div class="buttons">
-                <button class="confirm"> confirm </button>
-                <button class="cancel"> cancel </button>
+                <img src="/imagens/enterbt.png" alt="">
+            </div>
+            <div class="texts">
+                <a class="nopass" href="">esqueci a senha</a>
+                <a class="nocad" href="/signin">não possui cadastro</a>
             </div>
         </div>
     </div>
@@ -40,8 +50,6 @@
                 box.style.transform = `translateY(${randomHeight}px)`;
             });
         });
-
-        
     </script>
 </body>
 </html>
