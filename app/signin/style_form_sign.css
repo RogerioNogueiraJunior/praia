@@ -12,7 +12,8 @@ body{
     overflow-x: hidden;
     background-color: #00CBE7;
     background-image: url(/imagens/newsbg.png);
-    background-size: cover;
+    background-size:auto;
+    background-position: 70%;
 }
 a{
     background-color: transparent;
