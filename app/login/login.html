@@ -22,16 +22,11 @@
             <input type="text" placeholder="email ou username" name="" id="name">
             <input type="password" placeholder="senha" name="" id="psw">
             <div class="buttons">
-<<<<<<< HEAD:app/login.html
-                <button class="confirm" id="btnConfirm"> confirm </button>
-                <button class="cancel"> cancel </button>
-=======
                 <img src="/imagens/enterbt.png" alt="">
             </div>
             <div class="texts">
                 <a class="nopass" href="">esqueci a senha</a>
                 <a class="nocad" href="/signin">não possui cadastro</a>
->>>>>>> 510986033479996d3659ffb220b67b19c0f6f99c:app/login/login.html
             </div>
         </div>
     </div>
@@ -55,42 +50,6 @@
                 box.style.transform = `translateY(${randomHeight}px)`;
             });
         });
-<<<<<<< HEAD:app/login.html
-
-             // Lógica de login
-        document.getElementById('btnConfirm').addEventListener('click', async function () {
-            const email = document.getElementById('name').value;
-            const senha = document.getElementById('psw').value;
-
-            if (!email || !senha) {
-                alert('Preencha todos os campos');
-                return;
-            }
-
-            try {
-                const res = await fetch('http://localhost:3000/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, senha })
-                });
-
-                const data = await res.json();
-
-                if (res.ok) {
-                    alert(data.message);
-                    // redireciona para a página principal ou painel
-                    window.location.href = '/home'; 
-                } else {
-                    alert(data.message || 'Erro ao fazer login.');
-                }
-            } catch (err) {
-                console.error(err);
-                alert('Erro de conexão com o servidor.');
-            }
-        });
-        
-=======
->>>>>>> 510986033479996d3659ffb220b67b19c0f6f99c:app/login/login.html
     </script>
 </body>
 </html>
