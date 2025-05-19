@@ -16,6 +16,10 @@ const publicpath = path.join(__dirname);
 app.use(express.json());
 app.use('/game', express.static(publicpath));
 
+app.get('/room', (req, res) => {
+    res.sendFile(join(publicpath, 'roomCreation.html')); // Corrigido
+});
+
 app.get('/', (req, res) => {
     res.sendFile(join(__dirname, 'index.html'));
 });
