@@ -12,11 +12,14 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "epress": "^0.0.1-security",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.9",
-    "pg": "^8.15.6",
+    "pg": "^8.16.0",
     "phaser": "^3.88.2",
     "praia": "file:",
     "ws": "^8.18.1"

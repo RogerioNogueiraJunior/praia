@@ -1,5 +1,5 @@
 import express from "express";
-import cors from 'cors'
+
 import { createServer } from "http";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
@@ -42,12 +42,6 @@ app.use('/users', userRoutes);
 httpServer.listen(port, () => {
     console.log('Server is listening on port', port);
 })
-
-// habilitar cors
-app.use(cors({
-  origin: 'http://localhost:8081', // sua origem do front (onde o HTML roda)
-  credentials: true
-}));
 
 // Iniciar servidor
 app.listen(3000, () => {

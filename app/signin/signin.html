@@ -60,10 +60,10 @@
 
              // Lógica de login
         document.getElementById('btnConfirm').addEventListener('click', async function () {
-            const email = document.getElementById('name').value;
+            const nome = document.getElementById('name').value;
             const senha = document.getElementById('psw').value;
 
-            if (!email || !senha) {
+            if (!nome || !senha) {
                 alert('Preencha todos os campos');
                 return;
             }
@@ -72,7 +72,7 @@
                 const res = await fetch('http://localhost:3000/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, senha })
+                    body: JSON.stringify({ nome, senha })
                 });
 
                 const data = await res.json();

@@ -1,4 +1,5 @@
 import express from "express";
+import cors from 'cors'
 import { createServer } from "http";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
@@ -6,6 +7,17 @@ import path from "path";
 import { Server } from "socket.io";
 
 const app = express();
+// habilitar cors
+app.use(cors({
+  origin: 'http://localhost:8081',
+  credentials: true
+}));
+app.use(express.json());
+
+// Suas rotas aqui
+import userRoutes from './routes/user.js';
+app.use('/register', userRoutes); // exemplo
+
 const httpServer = createServer(app);
 const io = new Server(httpServer);
 
