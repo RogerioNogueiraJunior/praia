@@ -60,10 +60,10 @@
 
              // Lógica de login
         document.getElementById('btnConfirm').addEventListener('click', async function () {
-            const nome = document.getElementById('name').value;
+            const email = document.getElementById('name').value;
             const senha = document.getElementById('psw').value;
 
-            if (!nome || !senha) {
+            if (!email || !senha) {
                 alert('Preencha todos os campos');
                 return;
             }
