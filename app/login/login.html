@@ -16,13 +16,14 @@
             </div>
         </div>
     </div>
+    <p id="alert"></p>
     <div class="main">
         <div class="form">
             <a href="/"><img class="logo" src="/imagens/logo.png" alt=""></a>
-            <input type="text" placeholder="email ou username" name="" id="name">
-            <input type="password" placeholder="senha" name="" id="psw">
+            <input type="text" placeholder="email ou username" name="" id="email">
+            <input type="password" placeholder="senha" name="" id="senha">
             <div class="buttons">
-                <img src="/imagens/enterbt.png" alt="">
+                <img id="btnEnter" src="/imagens/enterbt.png" alt="">
             </div>
             <div class="texts">
                 <a class="nopass" href="">esqueci a senha</a>
@@ -50,6 +51,40 @@
                 box.style.transform = `translateY(${randomHeight}px)`;
             });
         });
+        
+        //login
+            document.getElementById('btnEnter').addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            const alert = document.getElementById('alert');
+
+            if (!email || !senha) {
+                alert.innerText = 'Preencha todos os campos';
+                return;
+            }
+
+            try {
+                const res = await fetch('/entrar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, senha }),
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    alert.innerText = 'Login realizado com sucesso!';
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    setTimeout(() => {
+                        window.location.href = '/'; // Ajuste para sua rota privada
+                    }, 1000);
+                } else {
+                    alert.innerText = `Erro: ${data.error}`;
+                }
+            } catch (err) {
+                alert.innerText = `Erro na requisição: ${err.message}`;
+            }
+        })
     </script>
 </body>
 </html>
