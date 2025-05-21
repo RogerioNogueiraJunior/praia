@@ -1,34 +1,51 @@
-import express from 'express';
-import pool from '../db.js'; // certifique-se de que db.js também usa export ES
 
-const router = express.Router();
+// import express from 'express';
+// import bcrypt from 'bcrypt';
+// import jwt from 'jsonwebtoken';
+// import pool from '../db.js';
+// const router = express.Router();
 
-router.post('/register', async (req, res) => {
-    const { nome, email, nascimento, cargo_idcargo } = req.body;
 
-    if (!nome || !email || !nascimento || !cargo_idcargo) {
-        return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
-    }
+// const JWT_SECRET = 'chave_secreta';
 
-    try {
-        // Verifica se o e-mail já existe
-        const checkEmail = await pool.query('SELECT * FROM usuario WHERE email = $1', [email]);
-        if (checkEmail.rows.length > 0) {
-            return res.status(409).json({ message: 'Email já está cadastrado.' });
-        }
+// router.post('/register', async (req, res) => {
+//   const { nome, email, senha, cargo_idcargo } = req.body;
 
-        // Inserir novo usuário
-        await pool.query(
-            'INSERT INTO usuario (cargo_idcargo, nome, email, nascimento) VALUES ($1, $2, $3, $4)',
-            [cargo_idcargo, nome, email, nascimento]
-        );
+//   if (!cargo_idcargo) {
+//     return res.status(400).json({ error: 'O campo cargo_idcargo é obrigatório' });
+//   }
 
-        res.status(201).json({ message: 'Usuário cadastrado com sucesso!' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Erro no servidor.' });
-    }
-});
+//   try {
+//     const hash = await bcrypt.hash(senha, 10);
+//     await pool.query(
+//       'INSERT INTO usuario (nome, email, senha, cargo_idcargo) VALUES ($1, $2, $3, $4)',
+//       [nome, email, hash, cargo_idcargo]
+//     );
+//     res.status(201).json({ message: 'Usuário registrado com sucesso' });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: 'Erro ao registrar usuário' });
+//   }
+// });
 
-export default router;
+
+// router.post('/login', async (req, res) => {
+//   const { email, senha } = req.body;
+//   try {
+//     const result = await pool.query('SELECT * FROM usuario WHERE email = $1', [email]);
+//     if (result.rows.length === 0) return res.status(401).json({ error: 'Credenciais inválidas' });
+
+//     const user = result.rows[0];
+//     const match = await bcrypt.compare(senha, user.senha);
+//     if (!match) return res.status(401).json({ error: 'Credenciais inválidas' });
+
+//     const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+//     res.json({ token });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: 'Erro ao fazer login' });
+//   }
+// });
+
+// export default router;
 

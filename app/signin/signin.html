@@ -16,13 +16,13 @@
             </div>
         </div>
     </div>
-
+    <p id="alert"></p>
     <div class="main">
         <div class="form">
             <a href="/"><img class="logo" src="/imagens/logo.png" alt=""></a>
             <input type="text" placeholder="email ou username" name="" id="name">
-            <input type="password" placeholder="senha" name="" id="psw">
-            <input type="password" placeholder="confirme a senha" name="" id="psw_confirm">
+            <input type="password" placeholder="senha" name="" id="senha">
+            <input type="password" placeholder="confirme a senha" name="" id="senha_confirm">
             <div class="buttons">
                  <svg id="btnConfirm" width="140" height="72" viewBox="0 0 140 72" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="140" height="72" fill="url(#pattern0_91_107)"/>
@@ -50,6 +50,7 @@
         <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
     </div>
     <script>
+        //logica das nuvens
         document.addEventListener("DOMContentLoaded", function() {
             const boxes = document.querySelectorAll('.box');
             boxes.forEach(box => {
@@ -57,39 +58,47 @@
                 box.style.transform = `translateY(${randomHeight}px)`;
             });
         });
-
-             // Lógica de login
+        //signin
         document.getElementById('btnConfirm').addEventListener('click', async function () {
             const email = document.getElementById('name').value;
-            const senha = document.getElementById('psw').value;
+            const senha = document.getElementById('senha').value;
+            const confirm = document.getElementById('senha_confirm').value;
+            const alert = document.getElementById('alert');
 
             if (!email || !senha) {
-                alert('Preencha todos os campos');
+                alert.innerHTML = 'preencha todos os campos'
                 return;
             }
-
-            try {
-                const res = await fetch('http://localhost:3000/login', {
+            if (senha != confirm){
+                alert.innerHTML = 'senhas não são iguais'
+                return;
+            } else {
+                //api
+                document.getElementById('btnConfirm').addEventListener('click', async () => {
+                const nome = document.getElementById('name').value;
+                const senha = document.getElementById('senha').value;
+                        
+                try {
+                    const res = await fetch('/inserir', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, senha })
-                });
+                    body: JSON.stringify({ nome, senha }),
+                    });
+                    const data = await res.json()
 
-                const data = await res.json();
-
-                if (res.ok) {
-                    alert(data.message);
-                    // redireciona para a página principal ou painel
-                    window.location.href = '/home'; 
-                } else {
-                    alert(data.message || 'Erro ao fazer login.');
+                    if (data.success) {
+                    console.log('Dados inseridos com sucesso! ID: ' + data.user.id);
+                    } else {
+                    console.log('Erro: ' + data.error);
+                    }
+                } catch (err) {
+                    console.log('Erro na requisição: ' + err.message);
                 }
-            } catch (err) {
-                console.error(err);
-                alert('Erro de conexão com o servidor.');
+                });
+                alert.innerHTML = ''
+                return
             }
         });
-        
     </script>
 </body>
 </html>
