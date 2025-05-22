@@ -9,7 +9,7 @@
     <script src="/app/pagesafe.js"></script>
 </head>
 <body>
-    <div id="header" class="header">
+    <header id="header" class="header">
         <div class="logo">
             <div class="imglogo">
                 <img class="coffee" src="/imagens/logo dumb coffee side.png" alt="">
@@ -22,16 +22,19 @@
             <a href="">SOCIAL</a>
             <a href="">COMUNIDADE</a>
         </div>
-        <div class="logsign">
+        <p id="welcomeMessage"></p>
+        <p id="logoutBtn">LOGOUT</p>       
+        <div class="logsign" id="authButtons">
             <a href="/login"><img src="/imagens/bt_log.png" alt="" class="button"></a>
             <a href="/signin"><img src="/imagens/bt_sign.png" alt="" class="button"></a>
         </div>
-    </div>
+    </header>
 
     <div class="play">
         <div class="play-images">
             <p>seu escritorio na praia</p>
             <img class="logo-praia" src="/imagens/logo.png" alt="">
+            <img id="enterButton" src="imagens/enterbt.png" alt="">
         </div>
     </div>
 
@@ -82,10 +85,10 @@
     
     <img class="wave-container" src="/imagens/newsbg.png" alt="">
     
-    <div class="footer">
+    <footer class="footer">
         <img src="/imagens/logo dumb coffee.png" alt="">
         <img src="/imagens/logo.png" alt="">
-    </div>
+    </footer>
     
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -94,6 +97,79 @@
                 const randomHeight = Math.floor(Math.random() * (700 - 600 + 1)) + 100; // Altura entre 100px e 200px
                 box.style.transform = `translateY(${randomHeight}px)`;
             });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+        // Efeito das nuvens
+        const boxes = document.querySelectorAll('.box');
+        boxes.forEach(box => {
+            const randomHeight = Math.floor(Math.random() * (700 - 600 + 1)) + 100;
+            box.style.transform = `translateY(${randomHeight}px)`;
+        });
+
+        // Login/Logout dinamicamente
+        const authButtons = document.getElementById('authButtons');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const enterbt = document.getElementById('enterButton');
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (user) {
+            // Usuário logado
+            welcomeMessage.textContent = `Bem-vindo, ${user.nome}`;
+            authButtons.style.display = 'none';
+            enterbt.style.display = 'flex'
+            logoutBtn.style.display = 'block';
+        } else {
+            // Usuário deslogado
+            authButtons.style.display = 'flex';
+            enterbt.style.display = 'none';
+            logoutBtn.style.display = 'none';
+        }
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('user');
+            location.reload(); // Recarrega a página para atualizar a interface
+        });
+
+        if (data.success) {
+            localStorage.setItem('user', JSON.stringify({ nome: data.user.nome })); // ou data.user.email, etc.
+            window.location.href = '/';
+        } 
+    });
+        // troca de nome de usuário
+        document.getElementById('welcomeMessage').addEventListener('click', async () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            if (!user || !user.email) {
+                alert("Usuário não está logado.");
+                return;
+            }
+
+            const name = prompt('Digite seu novo nome:');
+
+            if (!name) return;
+
+            try {
+                const res = await fetch('/name_change', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: user.email, name })
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    // Atualiza o localStorage e a interface
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    document.getElementById('welcomeMessage').textContent = `Bem-vindo, ${data.user.nome}`;
+                } else {
+                    alert('Erro: ' + data.error);
+                }
+
+            } catch (err) {
+                console.log(`Erro na requisição: ${err.message}`);
+            }
         });
     </script>
 

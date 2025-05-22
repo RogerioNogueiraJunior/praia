@@ -46,6 +46,7 @@ img{
         justify-content: center;
         align-items: center;
     }
+
     .logsign:hover{
         cursor: pointer;
     }
@@ -67,6 +68,15 @@ img{
         margin: -300px -150px -60px;
         background-color: transparent;
     }
+    p{
+        font-size: 40px;
+        color: white;
+
+    }
+    p:hover{
+        color: #eb9e33;
+        cursor: pointer;
+    }
 
 }
 
@@ -76,12 +86,12 @@ a{
     font-size: 50px;
     background-color: transparent;
 }
+
 .links{
     display: flex;
     justify-content: space-around;
     width: 50%;
 }
-
 .play{
     display: flex;
     flex-direction: column;

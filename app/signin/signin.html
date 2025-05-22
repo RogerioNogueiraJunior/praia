@@ -20,7 +20,7 @@
     <div class="main">
         <div class="form">
             <a href="/"><img class="logo" src="/imagens/logo.png" alt=""></a>
-            <input type="text" placeholder="email ou username" name="" id="name">
+            <input type="text" placeholder="email" name="" id="email">
             <input type="password" placeholder="senha" name="" id="senha">
             <input type="password" placeholder="confirme a senha" name="" id="senha_confirm">
             <div class="buttons">
@@ -59,46 +59,43 @@
             });
         });
         //signin
-        document.getElementById('btnConfirm').addEventListener('click', async function () {
-            const email = document.getElementById('name').value;
-            const senha = document.getElementById('senha').value;
-            const confirm = document.getElementById('senha_confirm').value;
-            const alert = document.getElementById('alert');
+    document.getElementById('btnConfirm').addEventListener('click', async function () {
+        const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
+        const confirm = document.getElementById('senha_confirm').value;
+        const alert = document.getElementById('alert');
 
-            if (!email || !senha) {
-                alert.innerHTML = 'preencha todos os campos'
-                return;
-            }
-            if (senha != confirm){
-                alert.innerHTML = 'senhas não são iguais'
-                return;
+        if (!email || !senha || !confirm) {
+            alert.innerHTML = 'Preencha todos os campos';
+            return;
+        }
+
+        if (senha !== confirm) {
+            alert.innerHTML = 'Senhas não são iguais';
+            return;
+        }
+
+        try {
+            const res = await fetch('/inserir', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, senha })
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                alert.innerHTML = 'Cadastro realizado com sucesso! Redirecionando...';
+                setTimeout(() => {
+                    window.location.href = '/login'; // Redireciona para /login
+                }, 1500); // Espera 1,5 segundos para mostrar a mensagem
             } else {
-                //api
-                document.getElementById('btnConfirm').addEventListener('click', async () => {
-                const nome = document.getElementById('name').value;
-                const senha = document.getElementById('senha').value;
-                        
-                try {
-                    const res = await fetch('/inserir', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ nome, senha }),
-                    });
-                    const data = await res.json()
-
-                    if (data.success) {
-                    console.log('Dados inseridos com sucesso! ID: ' + data.user.id);
-                    } else {
-                    console.log('Erro: ' + data.error);
-                    }
-                } catch (err) {
-                    console.log('Erro na requisição: ' + err.message);
-                }
-                });
-                alert.innerHTML = ''
-                return
+                alert.innerHTML = `Erro: ${data.error || 'Erro desconhecido'}`;
             }
-        });
+        } catch (err) {
+            alert.innerHTML = `Erro na requisição: ${err.message}`;
+        }
+    });
     </script>
 </body>
 </html>
