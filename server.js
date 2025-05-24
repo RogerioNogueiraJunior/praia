@@ -16,7 +16,7 @@ const pool = new Pool({
   host: 'localhost',
   database: 'praia',
   password: 'password',
-  port: 5432,
+  port: 8080,
 });
 
 async function criarTabela(){
