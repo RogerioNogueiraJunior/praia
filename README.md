@@ -1,4 +1,4 @@
-# praia# Praia
+# Praia
 
 Projeto de autenticação de usuários com Node.js, Express, PostgreSQL e Docker.
 
