@@ -1,7 +1,5 @@
 # Praia
 
-Projeto de autenticação de usuários com Node.js, Express, PostgreSQL e Docker.
-
 ## Pré-requisitos
 
 - [Node.js](https://nodejs.org/)
