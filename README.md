@@ -1,12 +1,12 @@
-# praia# Praia
+# Praia
 
 Projeto de autenticação de usuários com Node.js, Express, PostgreSQL e Docker.
 
 ## Pré-requisitos
 
 - [Node.js](https://nodejs.org/)
-- [Docker](https://www.docker.com/) (para rodar o banco de dados PostgreSQL)
 - [npm](https://www.npmjs.com/) (geralmente já vem com o Node.js)
+- [Docker](https://www.docker.com/) (para rodar o banco de dados PostgreSQL)
 
 ## Instalação
 
@@ -38,6 +38,12 @@ Projeto de autenticação de usuários com Node.js, Express, PostgreSQL e Docker
      ```
      *(Ajuste o nome do arquivo conforme o que está na sua pasta)*
 
+   - **Ou** execute o script Node.js para criar a tabela:
+     ```sh
+     cd database
+     node criarTabela.js
+     ```
+
 ## Como rodar o projeto
 
 1. **Inicie o servidor:**
@@ -60,7 +66,7 @@ Projeto de autenticação de usuários com Node.js, Express, PostgreSQL e Docker
 praia/
 ├── app/                # Frontend (HTML, CSS, JS)
 ├── controllers/        # Lógica dos controllers (UserController.js)
-├── database/           # Scripts SQL para criação de tabelas
+├── database/           # Scripts SQL e JS para criação de tabelas
 ├── models/             # Acesso ao banco de dados (userModel.js)
 ├── public/             # Imagens e arquivos estáticos
 ├── routes/             # Rotas da API (UserRoutes.js)
@@ -77,5 +83,4 @@ praia/
 
 - Certifique-se de que o Docker e o container do PostgreSQL estejam rodando antes de iniciar o servidor.
 - Os logs do servidor aparecem no terminal onde você rodou o Node.js.
-- para criar a tabela acesse o diretorio database e digite node criarTabela.js no terminal
-
+- Para criar a tabela via script, acesse o diretório `database` e digite `node criarTabela.js` no terminal.
