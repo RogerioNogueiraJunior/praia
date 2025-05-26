@@ -76,7 +76,7 @@
         }
 
         try {
-            const res = await fetch('/inserir', {
+            const res = await fetch('/api/inserir', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, senha })
