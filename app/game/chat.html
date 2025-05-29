@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat Teste</title>
+</head>
+<body>
+   <script src="/socket.io/socket.io.js"></script>
+  <ul id="chat"></ul>
+  <input id="messageInput" placeholder="Digite uma mensagem..." />
+  <button onclick="sendMessage()">Enviar</button>
+  <script>
+    const socket = io();
+    
+    socket.on('connect', () => {
+      console.log('Conectado:', socket.id);
+    });
+
+    socket.on('chat message', ({ userId, message }) => {
+      const li = document.createElement('li');
+      li.textContent = `${userId.substring(0, 5)}: ${message}`;
+      document.getElementById('chat').appendChild(li);
+    });
+
+    function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const message = input.value;
+      if (message.trim()) {
+        socket.emit('chat message', message);
+        input.value = '';
+      }
+    }
+  </script>
+</body>
+</html>

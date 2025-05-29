@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import pool from '../server.js'
 import {
   inserirUsuarioDB,
   buscarUsuarioPorEmail,
@@ -47,5 +48,16 @@ export async function mudarNomeUsuario(req, res) {
   } catch (err) {
     console.error('Erro ao mudar nome:', err);
     res.status(500).json({ success: false, error: 'Erro interno no servidor' });
+  }
+}
+
+export async function listarUsuarios(req, res) {
+  try {
+    const result = await pool.query('SELECT id, nome, email FROM users');
+    res.json(result.rows);
+    console.log("acessado")
+  } catch (err) {
+    console.error('Erro ao buscar usuários:', err);
+    res.status(500).json({ erro: 'Erro ao buscar usuários' });
   }
 }
