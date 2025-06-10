@@ -1,9 +1,14 @@
 import bcrypt from 'bcrypt';
+
 import {
   inserirUsuarioDB,
   buscarUsuarioPorEmail,
   atualizarNomeUsuario
 } from '../models/userModel.js';
+
+import jwt from 'jsonwebtoken';
+
+const SECRET = 'sua_chave_secreta';
 
 export async function inserirUsuario(req, res) {
   const { email, senha } = req.body;
@@ -29,7 +34,15 @@ export async function loginUsuario(req, res) {
     if (!user || !(await bcrypt.compare(senha, user.senha))) {
       return res.status(401).json({ success: false, error: 'Email ou senha inválidos' });
     }
-    res.json({ success: true, user: { id: user.id, email: user.email, nome: user.nome } });
+    const token = jwt.sign(
+      { id: user.id, email: user.email, nome: user.nome }, 
+      SECRET, 
+      { expiresIn: '1h'});
+    res.json({ 
+      success: true,
+      user: { id: user.id, nome: user.nome, email: user.email  }, 
+      token 
+      });
   } catch (err) {
     console.error('Erro ao fazer login:', err);
     res.status(500).json({ success: false, error: 'Erro interno no servidor' });

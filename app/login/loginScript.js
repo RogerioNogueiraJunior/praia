@@ -1,0 +1,39 @@
+import { animateClouds } from '../clouds.js';
+
+document.addEventListener("DOMContentLoaded", animateClouds);
+
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('btnEnter').addEventListener('click', async () => {
+        const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
+        const alert = document.getElementById('alert');
+
+        if (!email || !senha) {
+            alert.innerText = 'Preencha todos os campos';
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/entrar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, senha }),
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                alert.innerText = 'Login realizado com sucesso!';
+                localStorage.setItem('user', JSON.stringify(data.user));
+                localStorage.setItem('token', data.token);
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
+            } else {
+                alert.innerText = `Erro: ${data.error}`;
+            }
+        } catch (err) {
+            alert.innerText = `Erro na requisição: ${err.message}`;
+        }
+    });
+});

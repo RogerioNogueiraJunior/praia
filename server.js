@@ -18,6 +18,8 @@ const imagePath = path.join(__dirname, 'public', 'imagens');
 app.use(express.json());
 app.use('/app', express.static(publicpath));
 app.use('/', express.static(publicpath));
+app.use('/controllers', express.static(path.join(__dirname, 'controllers')));
+app.use('/../controllers', express.static(path.join(__dirname, 'controllers')));
 app.use('/imagens', express.static(imagePath));
 
 // Páginas públicas

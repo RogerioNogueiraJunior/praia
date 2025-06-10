@@ -66,6 +66,15 @@ img{
         margin: -300px -150px -60px;
         background-color: transparent;
     }
+    #welcomeMessage, #logoutBtn{
+        font-size: 40px;
+        color: white;
+
+    }
+    #logoutBtn:hover, #welcomeMessage:hover{
+        color: #eb9e33;
+        cursor: pointer;
+    }
 
 }
 

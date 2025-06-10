@@ -1,28 +1,66 @@
-const socket = io();
-const objects = document.getElementById('objects');
+import { requireAuth } from "/app/authGuard.js";
+import { createUserBox } from "/game/gameUtils.js"; // Use utilitário
+
 let myId = null;
-const positions = {}; // Guarda posições por usuário
+const objects = document.getElementById('objects');
+const positions = {};
+
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+// Recupera token da URL ou localStorage
+let token = getQueryParam('token');
+let nome = getQueryParam('nome');
+if (token) {
+    localStorage.setItem('token', token);
+}
+if (nome) {
+    nome = decodeURIComponent(nome);
+    localStorage.setItem('nome', nome);
+}
+token = localStorage.getItem('token');
+nome = localStorage.getItem('nome') || 'Anônimo';
+
+requireAuth('http://localhost:8081/login'); // Protege a página
+
+// Conecta socket enviando o token
+const socket = io('http://localhost:3000', {
+  query: { token }
+});
 
 socket.on('current users', (userList) => {
-    userList.forEach(([userId, pos]) => {
-        createUserBox(userId, pos);
+    userList.forEach(([userId, nome, pos]) => {
+        if (userId !== socket.id) { // Não cria sua própria caixa ainda
+            createUserBox(userId, nome, pos);
+            // Atualiza a posição visualmente
+            const el = document.getElementById(userId);
+            if (el && pos) {
+                el.style.left = pos.x + 'px';
+                el.style.top = pos.y + 'px';
+            }
+            // Atualiza o objeto de posições
+            positions[userId] = pos;
+        }
     });
 });
 
-socket.on('object creation', ({ userId, x, y }) => {
-    createUserBox(userId, { x, y });
+socket.on('object creation', ({ userId, nome, x, y }) => {
+    createUserBox(userId, nome, { x, y });
 });
+
 
 socket.on('connect', () => {
     myId = socket.id;
-
     const initialX = window.innerWidth / 2 - 50;
     const initialY = window.innerHeight / 2 - 50;
-
     positions[myId] = { x: initialX, y: initialY };
 
-    // Enviamos a posição inicial para o servidor
-    socket.emit('initial position', { x: initialX, y: initialY });
+    createUserBox(myId, nome, { x: initialX, y: initialY });
+
+    socket.emit('register name', nome);
+    socket.emit('initial position', { x: initialX, y: initialY }); // <-- ADICIONE ESTA LINHA
 });
 
 socket.on('remove user', (userId) => {
@@ -39,18 +77,6 @@ socket.on('position update', ({ userId, x, y }) => {
         el.style.top = y + 'px';
     }
 });
-
-function createUserBox(userId, pos = { x: 0, y: 0 }) {
-    if (document.getElementById(userId)) return;
-    const box = document.createElement('div');
-    box.classList.add('person');
-    box.id = userId;
-    box.textContent = userId === myId ? "You" : userId;
-    box.style.left = pos.x + 'px';
-    box.style.top = pos.y + 'px';
-    positions[userId] = { x: pos.x, y: pos.y };
-    objects.appendChild(box);
-}       
 
 // Teclas W A S D
 document.addEventListener('keydown', (e) => {

@@ -43,48 +43,6 @@
         <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
         <div class="box"><img src="/imagens/nuvem.png" alt=""></div>
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const boxes = document.querySelectorAll('.box');
-            boxes.forEach(box => {
-                const randomHeight = Math.floor(Math.random() * (700 - 600 + 1)) + 100; // Altura entre 100px e 200px
-                box.style.transform = `translateY(${randomHeight}px)`;
-            });
-        });
-        
-        //login
-            document.getElementById('btnEnter').addEventListener('click', async () => {
-            const email = document.getElementById('email').value;
-            const senha = document.getElementById('senha').value;
-            const alert = document.getElementById('alert');
-
-            if (!email || !senha) {
-                alert.innerText = 'Preencha todos os campos';
-                return;
-            }
-
-            try {
-                const res = await fetch('/api/entrar', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, senha }),
-                });
-
-                const data = await res.json();
-
-                if (data.success) {
-                    alert.innerText = 'Login realizado com sucesso!';
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    setTimeout(() => {
-                        window.location.href = '/'; // Ajuste para sua rota privada
-                    }, 1000);
-                } else {
-                    alert.innerText = `Erro: ${data.error}`;
-                }
-            } catch (err) {
-                alert.innerText = `Erro na requisição: ${err.message}`;
-            }
-        })
-    </script>
+    <script type="module" src="/app/login/loginScript.js"></script>
 </body>
 </html>
