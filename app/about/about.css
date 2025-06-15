@@ -229,3 +229,7 @@ a{
     font-size: 30px;
 }
 
+.play-images{
+    display: flex;
+    flex-direction: column;
+}
