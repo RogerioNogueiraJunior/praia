@@ -12,13 +12,15 @@ class GameScene extends Phaser.Scene {
             frameWidth: 32,
             frameHeight: 48
         });
-        this.load.image('sky', 'assets/sky.png');
     }
 
-    create() {
-        this.add.image(400, 300, 'sky')
-        this.players = {} // Mapa de jogadores
-
+    create() { 
+        this.add.rectangle(0, 0, this.sys.canvas.width, this.sys.canvas.height, 0x00ccf0).setOrigin(0);  
+        // Defina os limites do mundo para o tamanho da tela
+        this.physics.world.setBounds(0, 0, this.sys.game.config.width, this.sys.game.config.height);
+        this.players = {}; // Mapa de jogadores
+        this.playerLabels = {}; // Novo: mapa de textos
+        
         // Animações para cada direção
         this.anims.create({
             key: 'left',
@@ -54,12 +56,19 @@ class GameScene extends Phaser.Scene {
         });
 
         // Conexão com socket.io
-        this.socket = io('http://localhost:3000');
+        this.socket = io('http://localhost:3000/game');
         // Cria todos os jogadores já conectados
         this.socket.on('currentPlayers', (players) => {
             Object.values(players).forEach(player => {
                 if (!this.players[player.id]) {
                     this.players[player.id] = this.physics.add.sprite(player.x, player.y, 'dude');
+                    this.players[player.id].setCollideWorldBounds(true); // <-- Adicione aqui!
+                    this.playerLabels[player.id] = this.add.text(player.x, player.y - 40, player.id, {
+                        font: '16px Arial',
+                        fill: '#000',
+                        backgroundColor: '#fff',
+                        padding: { x: 4, y: 2 }
+                    }).setOrigin(0.5);
                 }
             });
         });
@@ -67,13 +76,22 @@ class GameScene extends Phaser.Scene {
         this.socket.on('spawnPlayer', ({ id, x, y }) => {
             if (!this.players[id]) {
                 this.players[id] = this.physics.add.sprite(x, y, 'dude');
+                this.players[id].setCollideWorldBounds(true); // <-- Adicione aqui!
+                this.playerLabels[id] = this.add.text(x, y - 40, id, {
+                    font: '16px Arial',
+                    fill: '#000',
+                    backgroundColor: '#fff',
+                    padding: { x: 4, y: 2 }
+                }).setOrigin(0.5);
             }
         });
         // Remove jogador desconectado
         this.socket.on('removePlayer', ({ id }) => {
             if (this.players[id]) {
                 this.players[id].destroy();
+                this.playerLabels[id].destroy(); // Remover o texto
                 delete this.players[id];
+                delete this.playerLabels[id]; // Remover do mapa
             }
         });
         // Atualiza posição e animação de outros jogadores
@@ -130,6 +148,16 @@ class GameScene extends Phaser.Scene {
         if (moved || anim === 'idle') {
             this.socket.emit('playerMovement', { x: player.x, y: player.y, anim });
         }
+
+        // Atualiza a posição dos textos dos jogadores
+        Object.keys(this.players).forEach(id => {
+            if (this.playerLabels[id]) {
+                this.playerLabels[id].setPosition(
+                    this.players[id].x,
+                    this.players[id].y - 40
+                );
+            }
+        });
     }
 }
 
@@ -137,8 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('gameCanvas');
     const config = {
         type: Phaser.CANVAS,
-        width: 800,
-        height: 600,
+        width: window.innerWidth,
+        height: window.innerHeight,
         canvas: canvas,
         physics: { default: 'arcade' },
         scene: [GameScene]
