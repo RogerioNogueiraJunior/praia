@@ -6,12 +6,20 @@
     <title>game</title>
   </head>
   <body>
+    <div id="salaIdLabel"></div>
     <main>
       <canvas id="gameCanvas"></canvas>
     </main>
     <div id="chat">
-      <iframe src="chat.html" frameborder="0"></iframe>
+      <iframe id="chatFrame" src="" frameborder="0"></iframe>
     </div>
     <script type="module" src="/src/main.js"></script>
+    <script>
+      // Pegue o salaId da URL principal
+      const urlParams = new URLSearchParams(window.location.search);
+      const salaId = urlParams.get('salaId');
+      // Monte a URL do iframe com o salaId
+      document.getElementById('chatFrame').src = `chat.html?salaId=${encodeURIComponent(salaId)}`;
+    </script>
   </body>
 </html>

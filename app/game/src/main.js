@@ -15,6 +15,15 @@ class GameScene extends Phaser.Scene {
     }
 
     create() { 
+        // Pegue o salaId logo no início
+        const urlParams = new URLSearchParams(window.location.search);
+        const salaId = urlParams.get('salaId');
+        if (!salaId) {
+            window.location.href = 'http://localhost:8081/';
+        return;
+        }
+        this.salaId = salaId;
+
         this.add.rectangle(0, 0, this.sys.canvas.width, this.sys.canvas.height, 0x00ccf0).setOrigin(0);  
         // Defina os limites do mundo para o tamanho da tela
         this.physics.world.setBounds(0, 0, this.sys.game.config.width, this.sys.game.config.height);
@@ -54,33 +63,43 @@ class GameScene extends Phaser.Scene {
             left: Phaser.Input.Keyboard.KeyCodes.A,
             right: Phaser.Input.Keyboard.KeyCodes.D
         });
+        
+
 
         // Conexão com socket.io
         this.socket = io('http://localhost:3000/game');
+
+        this.salaId = salaId;
+        this.socket.emit('joinRoom', { salaId });
         // Cria todos os jogadores já conectados
         this.socket.on('currentPlayers', (players) => {
             Object.values(players).forEach(player => {
                 if (!this.players[player.id]) {
                     this.players[player.id] = this.physics.add.sprite(player.x, player.y, 'dude');
-                    this.players[player.id].setCollideWorldBounds(true); // <-- Adicione aqui!
+                    this.players[player.id].setCollideWorldBounds(true);
+                    // Use adminId para cor diferente
+                    const isAdmin = player.id === this.adminId;
                     this.playerLabels[player.id] = this.add.text(player.x, player.y - 40, player.id, {
                         font: '16px Arial',
                         fill: '#000',
-                        backgroundColor: '#fff',
+                        backgroundColor: isAdmin ? '#00f' : '#fff',
                         padding: { x: 4, y: 2 }
                     }).setOrigin(0.5);
                 }
             });
         });
+
         // Cria novo jogador
         this.socket.on('spawnPlayer', ({ id, x, y }) => {
             if (!this.players[id]) {
                 this.players[id] = this.physics.add.sprite(x, y, 'dude');
-                this.players[id].setCollideWorldBounds(true); // <-- Adicione aqui!
+                this.players[id].setCollideWorldBounds(true);
+                // Use adminId para cor diferente
+                const isAdmin = id === this.adminId;
                 this.playerLabels[id] = this.add.text(x, y - 40, id, {
                     font: '16px Arial',
                     fill: '#000',
-                    backgroundColor: '#fff',
+                    backgroundColor: isAdmin ? '#00f' : '#fff',
                     padding: { x: 4, y: 2 }
                 }).setOrigin(0.5);
             }
@@ -111,6 +130,11 @@ class GameScene extends Phaser.Scene {
         this.socket.on('connect', () => {
             this.myId = this.socket.id;
         });
+
+        // Exibe o ID da sala na tela
+        if (salaId) {
+            document.getElementById('salaIdLabel').textContent = `Sala: ${salaId}`;
+        }
     }
 
     update() {
@@ -165,8 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('gameCanvas');
     const config = {
         type: Phaser.CANVAS,
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: 1920,
+        height: 1080,
         canvas: canvas,
         physics: { default: 'arcade' },
         scene: [GameScene]

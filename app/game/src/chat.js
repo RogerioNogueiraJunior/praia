@@ -5,16 +5,23 @@
         const input = document.getElementById('input');
         const messages = document.getElementById('messages');
 
-        socket.on('connect', () => {
-            myId = socket.id;
-        });
+        const urlParams = new URLSearchParams(window.location.search);
+        const salaId = urlParams.get('salaId');
+        socket.emit('joinRoom', { salaId });
+        if (!salaId) {
+            window.top.location.href = 'http://localhost:8081/';
+        }
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             if (input.value) {
-                socket.emit('chat message', input.value);
+                socket.emit('chat message', { salaId, msg: input.value }); // Envie salaId junto
                 input.value = '';
             }
+        });
+
+        socket.on('connect', () => {
+            myId = socket.id;
         });
 
         socket.on('chat message', ({ id, msg }) => {

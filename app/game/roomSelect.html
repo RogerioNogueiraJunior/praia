@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecionar Sala</title>
+</head>
+<body>
+    <form id="joinRoomForm">
+        <label for="salaIdInput">Entrar em uma sala existente:</label>
+        <input type="text" id="salaIdInput" placeholder="ID da sala">
+        <button type="submit">Entrar</button>
+    </form>
+    <script>
+    // Recupera token e user do localStorage
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    document.getElementById('joinRoomForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const salaId = document.getElementById('salaIdInput').value.trim();
+        if (salaId) {
+            window.location.href = `http://localhost:5173/?salaId=${salaId}`;
+        } else {
+            alert('Digite o ID da sala para entrar.');
+        }
+    });
+    </script>
+</body>
+</html>

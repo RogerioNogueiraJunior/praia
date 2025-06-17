@@ -14,24 +14,22 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         try {
-            const res = await fetch('/api/entrar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, senha }),
-            });
+        const res = await fetch('/api/entrar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, senha }),
+        });
 
-            const data = await res.json();
-
-            if (data.success) {
-                alert.innerText = 'Login realizado com sucesso!';
-                localStorage.setItem('user', JSON.stringify(data.user));
-                localStorage.setItem('token', data.token);
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 1000);
-            } else {
-                alert.innerText = `Erro: ${data.error}`;
-            }
+        const data = await res.json();
+        if (data.success) {
+            // ARMAZENE O TOKEN E O USUÁRIO
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            // Redirecione para o jogo ou dashboard
+            window.location.href = 'http://localhost:5173/app/game/roomSelect.html';
+        } else {
+            alert.innerText = data.error;
+        }
         } catch (err) {
             alert.innerText = `Erro na requisição: ${err.message}`;
         }

@@ -1,12 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Entrar no jogo
-    document.getElementById('enterButton').addEventListener('click', e => {
-        const token = localStorage.getItem('token');
-        const user = JSON.parse(localStorage.getItem('user'));
-        const nome = user ? encodeURIComponent(user.nome) : '';
-        if (token) {
-            window.location.href = `http://localhost:5173/?token=${token}&nome=${nome}`;
-        }
+    document.getElementById('enterButton').addEventListener('click', async e => {
+        window.location.href = `http://localhost:5173/roomSelect`
     });
 
     // Login/Logout dinamicamente
