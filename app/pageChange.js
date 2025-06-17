@@ -1,8 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Entrar no jogo
-    document.getElementById('enterButton').addEventListener('click', async e => {
-        window.location.href = `http://localhost:5173/roomSelect`
-    });
+
 
     // Login/Logout dinamicamente
     const authButtons = document.getElementById('authButtons');
@@ -10,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const welcomeMessage = document.getElementById('welcomeMessage');
     const enterbt = document.getElementById('enterButton');
     const user = JSON.parse(localStorage.getItem('user'));
+    const token = localStorage.getItem('token');
+    const email = user ? user.email : null;
+    const name = user ? user.nome : null;
 
     if (user) {
         // Usuário logado
@@ -32,18 +32,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // troca de nome de usuário
     welcomeMessage.addEventListener('click', async () => {
-        const user = JSON.parse(localStorage.getItem('user'));
-
-        const name = prompt('Digite seu novo nome:');
+        const novoNome = prompt('Digite seu novo nome:');
         if (!name) return;
 
         try {
-            const res = await fetch('/name_change', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: user.email, name })
+            const res = await fetch('/api/name_change', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({email, name: novoNome })
             });
-
             const data = await res.json();
 
             if (data.success) {
