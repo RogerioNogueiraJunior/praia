@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Logout
     logoutBtn.addEventListener('click', () => {
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
         location.reload();
     });
 

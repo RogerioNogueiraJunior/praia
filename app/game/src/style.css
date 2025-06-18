@@ -1,5 +1,5 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Jersey 10';
   --skyCrl: #00ccf0;
   --liClr: whitesmoke;
   --accClr:#0D0D35;
@@ -72,4 +72,20 @@ iframe {
   font-size: 16px;
   box-shadow: 0 2px 8px #0002;
   color:black;
+}
+
+#disconectBtn {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 10px;
+  z-index: 1000;
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 16px;
+  box-shadow: 0 2px 8px #0002;
+  color:black;
+
 }

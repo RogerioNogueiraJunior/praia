@@ -3,10 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css?family=Jersey+10" rel="stylesheet">
     <title>game</title>
   </head>
   <body>
     <div id="salaIdLabel"></div>
+    <button id="disconectBtn">desconectar</button>
     <main>
       <canvas id="gameCanvas"></canvas>
     </main>
@@ -20,6 +22,14 @@
       const salaId = urlParams.get('salaId');
       // Monte a URL do iframe com o salaId
       document.getElementById('chatFrame').src = `chat.html?salaId=${encodeURIComponent(salaId)}`;
+
+      document.getElementById('disconectBtn').addEventListener('click', () => {
+        // Envie uma mensagem de desconexão para o servidor
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+
+        location.reload();
+      });
     </script>
   </body>
 </html>

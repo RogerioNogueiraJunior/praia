@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));
             // Redirecione para o jogo ou dashboard
-            window.location.href = 'http://localhost:5173/app/game/roomSelect.html';
+            window.location.href = '/';
         } else {
             alert.innerText = data.error;
         }

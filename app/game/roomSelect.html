@@ -12,9 +12,6 @@
         <button type="submit">Entrar</button>
     </form>
     <script>
-    // Recupera token e user do localStorage
-    const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user'));
 
     document.getElementById('joinRoomForm').addEventListener('submit', (e) => {
         e.preventDefault();
@@ -23,6 +20,21 @@
             window.location.href = `http://localhost:5173/?salaId=${salaId}`;
         } else {
             alert('Digite o ID da sala para entrar.');
+        }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        const user = urlParams.get('user');
+        if (token || user || localStorage.getItem('token') || localStorage.getItem('user')) {
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', user);
+            // Opcional: Remover o token da URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else {
+            // Se não houver token, redireciona para login
+            window.location.href = 'http://localhost:8081';
         }
     });
     </script>
