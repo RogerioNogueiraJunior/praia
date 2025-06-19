@@ -17,8 +17,9 @@ class GameScene extends Phaser.Scene {
     create() {
         const token = localStorage.getItem('token');
         const username = localStorage.getItem('user');
+        const userId = localStorage.getItem('userId');
 
-        if (!token || !username) {
+        if (!token || !username || !userId) {
             window.location.href = 'http://localhost:8081/';
             return;
         }
@@ -32,8 +33,10 @@ class GameScene extends Phaser.Scene {
 
         this.salaId = salaId;
         this.username = username;
-        this.players = {};
-        this.playerLabels = {};
+        this.myUserId = userId;
+
+        this.players = {};       // { userId: sprite }
+        this.playerLabels = {};  // { userId: label }
 
         this.add.rectangle(0, 0, this.sys.canvas.width, this.sys.canvas.height, 0x00ccf0).setOrigin(0);
         this.physics.world.setBounds(0, 0, this.sys.game.config.width, this.sys.game.config.height);
@@ -55,24 +58,24 @@ class GameScene extends Phaser.Scene {
             transports: ['websocket'],
         });
 
-        // Envia nome e sala para o servidor
-        this.socket.emit('joinRoom', { salaId: salaId, nome: username });
+        // Entra na sala
+        this.socket.emit('joinRoom', { salaId: salaId, nome: username, userId: userId });
 
-        // Recebe todos os jogadores existentes na sala
+        // Jogadores já existentes
         this.socket.on('currentPlayers', (players) => {
             Object.values(players).forEach(player => {
-                this.spawnPlayer(player.x, player.y, player.nome);
+                this.spawnPlayer(player.x, player.y, player.nome, player.userId);
             });
         });
 
-        // Novo jogador na sala
-        this.socket.on('spawnPlayer', ({ x, y, nome }) => {
-            this.spawnPlayer(x, y, nome);
+        // Novo jogador
+        this.socket.on('spawnPlayer', ({ x, y, nome, userId }) => {
+            this.spawnPlayer(x, y, nome, userId);
         });
 
-        // Movimento de outros jogadores
-        this.socket.on('playerMoved', ({ nome, x, y, anim }) => {
-            const player = this.players[nome];
+        // Movimentação dos outros
+        this.socket.on('playerMoved', ({ nome, x, y, anim, userId }) => {
+            const player = this.players[userId];
             if (player) {
                 player.setPosition(x, y);
                 if (anim) {
@@ -82,22 +85,19 @@ class GameScene extends Phaser.Scene {
                         player.anims.play(anim, true);
                     }
                 }
-                this.updatePlayerLabelPosition(nome);
+                this.updatePlayerLabelPosition(userId);
             }
         });
 
-        // Jogador saiu
-        this.socket.on('removePlayer', ({ nome }) => {
-            if (this.players[nome]) {
-                this.players[nome].destroy();
-                this.playerLabels[nome].destroy();
-                delete this.players[nome];
-                delete this.playerLabels[nome];
+        // Remover jogador
+        this.socket.on('removePlayer', ({ userId }) => {
+            if (this.players[userId]) {
+                this.players[userId].destroy();
+                this.playerLabels[userId].destroy();
+                delete this.players[userId];
+                delete this.playerLabels[userId];
             }
         });
-
-        // Identificar meu próprio nome
-        this.myNome = username;
 
         if (salaId) {
             const salaLabel = document.getElementById('salaIdLabel');
@@ -107,34 +107,34 @@ class GameScene extends Phaser.Scene {
         }
     }
 
-    spawnPlayer(x, y, nome) {
-        if (this.players[nome]) return; // Evitar spawn duplicado
+    spawnPlayer(x, y, nome, userId) {
+        if (this.players[userId]) return; // Evitar duplicados
 
         const sprite = this.physics.add.sprite(x, y, 'dude');
         sprite.setCollideWorldBounds(true);
-        this.players[nome] = sprite;
+        this.players[userId] = sprite;
 
-        this.playerLabels[nome] = this.add.text(x, y - 40, nome, {
+        this.playerLabels[userId] = this.add.text(x, y - 40, `${nome}#${userId}`, {
             font: '16px Arial',
             fill: '#000',
             backgroundColor: '#fff',
             padding: { x: 4, y: 2 }
         }).setOrigin(0.5);
 
-        this.updatePlayerLabelPosition(nome);
+        this.updatePlayerLabelPosition(userId);
     }
 
-    updatePlayerLabelPosition(nome) {
-        if (this.playerLabels[nome] && this.players[nome]) {
-            this.playerLabels[nome].setPosition(
-                this.players[nome].x,
-                this.players[nome].y - 40
+    updatePlayerLabelPosition(userId) {
+        if (this.playerLabels[userId] && this.players[userId]) {
+            this.playerLabels[userId].setPosition(
+                this.players[userId].x,
+                this.players[userId].y - 40
             );
         }
     }
 
     update() {
-        const myPlayer = this.players[this.myNome];
+        const myPlayer = this.players[this.myUserId];
         if (!myPlayer) return;
 
         const speed = 200;
@@ -176,8 +176,8 @@ class GameScene extends Phaser.Scene {
         }
 
         // Atualizar labels de todos os jogadores
-        Object.keys(this.players).forEach(nome => {
-            this.updatePlayerLabelPosition(nome);
+        Object.keys(this.players).forEach(userId => {
+            this.updatePlayerLabelPosition(userId);
         });
     }
 }

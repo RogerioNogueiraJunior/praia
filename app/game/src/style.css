@@ -68,7 +68,6 @@ iframe {
   background: #fff;
   padding: 6px 12px;
   border-radius: 8px;
-  font-family: monospace;
   font-size: 16px;
   box-shadow: 0 2px 8px #0002;
   color:black;
@@ -83,9 +82,7 @@ iframe {
   background: #fff;
   padding: 6px 12px;
   border-radius: 8px;
-  font-family: monospace;
   font-size: 16px;
   box-shadow: 0 2px 8px #0002;
   color:black;
-
 }

@@ -11,32 +11,17 @@
         <input type="text" id="salaIdInput" placeholder="ID da sala">
         <button type="submit">Entrar</button>
     </form>
-    <script>
+    <form id="createRoom">
+        <label for="salaIdInput">Criar uma sala:</label>
+        <button type="submit">Criar</button>
+    </form>
+    <ul id="listaSalas"></ul>
 
-    document.getElementById('joinRoomForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const salaId = document.getElementById('salaIdInput').value.trim();
-        if (salaId) {
-            window.location.href = `http://localhost:5173/?salaId=${salaId}`;
-        } else {
-            alert('Digite o ID da sala para entrar.');
-        }
-    });
-
-    window.addEventListener('DOMContentLoaded', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-        const user = urlParams.get('user');
-        if (token || user || localStorage.getItem('token') || localStorage.getItem('user')) {
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', user);
-            // Opcional: Remover o token da URL
-            window.history.replaceState({}, document.title, window.location.pathname);
-        } else {
-            // Se não houver token, redireciona para login
-            window.location.href = 'http://localhost:8081';
-        }
-    });
-    </script>
+    <div>
+        <button id="btnPrev">Anterior</button>
+        <span id="paginaAtual">Página 1</span>
+        <button id="btnNext">Próxima</button>
+    </div>
+    <script type="module" src="src/roomSelect.js"></script>
 </body>
 </html>
