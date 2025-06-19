@@ -58,7 +58,7 @@ npm install phaser
 1. **Com Docker**  
    Crie um container PostgreSQL:
    ```sh
-   docker run --name praia-postgres -e POSTGRES_PASSWORD=suasenha -e POSTGRES_DB=praia -p 5432:5432 -d postgres
+   docker run --name praia-postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=praia -p 5432:5432 -d postgres
    ```
    Altere as credenciais de conexão em `models/userModel.js` se necessário.
 
