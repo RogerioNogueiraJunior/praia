@@ -1,17 +1,34 @@
-window.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-    const user = urlParams.get('user');
-    const userId = urlParams.get('userId');
+function parseJwt(token) {
+  try {
+    const base64Payload = token.split('.')[1];
+    const payload = atob(base64Payload);
+    return JSON.parse(payload);
+  } catch {
+    return null;
+  }
+}
 
-    if (token && user && userId) {
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', user);
-        localStorage.setItem('userId', userId);
-    } else if (!localStorage.getItem('token') || !localStorage.getItem('userId') || !localStorage.getItem('user')) {
-        window.location.href = 'http://localhost:8081';
-    }
+window.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token') || localStorage.getItem('token');
+
+  if (!token) {
+    window.location.href = 'http://localhost:8081';
+    return;
+  }
+
+  const payload = parseJwt(token);
+  if (!payload || !payload.id) {
+    alert('Token inválido ou expirado');
+    window.location.href = 'http://localhost:8081';
+    return;
+  }
+
+  localStorage.setItem('token', token);
+  localStorage.setItem('user', payload.nome || 'Desconhecido');
+  localStorage.setItem('userId', payload.id.toString());
 });
+
 
 document.getElementById('joinRoomForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -108,9 +125,20 @@ async function carregarSalas(page = 1) {
 function mostrarSalas(salas) {
     const lista = document.getElementById('listaSalas');
     lista.innerHTML = '';
+    const userId = parseInt(localStorage.getItem('userId'));
+
     salas.forEach(sala => {
         const item = document.createElement('li');
         item.textContent = `Sala ${sala.id} - Criada por: ${sala.creator ? sala.creator.nome : 'Desconhecido'} - Em: ${new Date(sala.createdAt).toLocaleString()}`;
+
+        if (sala.creator && parseInt(sala.creator.id) === userId) {
+            const btnDelete = document.createElement('button');
+            btnDelete.textContent = 'Apagar';
+            btnDelete.style.marginLeft = '10px';
+            btnDelete.addEventListener('click', () => deletarSala(sala.id));
+            item.appendChild(btnDelete);
+        }
+
         lista.appendChild(item);
     });
 }
@@ -130,6 +158,35 @@ document.getElementById('btnPrev').addEventListener('click', () => {
 document.getElementById('btnNext').addEventListener('click', () => {
     carregarSalas(currentPage + 1);
 });
+
+async function deletarSala(salaId) {
+    const userId = localStorage.getItem('userId');
+
+    if (!confirm(`Tem certeza que deseja apagar a sala ${salaId}?`)) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:8081/api/room/room/${salaId}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert('Sala apagada com sucesso!');
+            carregarSalas(currentPage);
+        } else {
+            alert(data.error || 'Erro ao apagar sala.');
+        }
+    } catch (error) {
+        console.error('Erro ao apagar sala:', error);
+        alert('Erro na requisição ao tentar apagar sala.');
+    }
+}
+
 
 // Carrega primeira página ao iniciar
 carregarSalas();

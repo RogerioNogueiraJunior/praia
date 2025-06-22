@@ -48,6 +48,7 @@ npm install
 ```bash
 cd ../praia/app/game
 npm install
+npm install phaser
 ```
 
 ---
@@ -57,7 +58,7 @@ npm install
 1. **Com Docker**  
    Crie um container PostgreSQL:
    ```sh
-   docker run --name praia-postgres -e POSTGRES_PASSWORD=suasenha -e POSTGRES_DB=praia -p 5432:5432 -d postgres
+   docker run --name praia-postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=praia -p 5432:5432 -d postgres
    ```
    Altere as credenciais de conexão em `models/userModel.js` se necessário.
 
@@ -112,23 +113,7 @@ export default {
 
 ---
 
-## Fluxo de Uso
-
-1. **Acesse** `http://localhost:5173/app/login/login.html` para fazer login ou cadastro.
-2. **Após login**, você será redirecionado para a seleção de sala.
-3. **Crie ou entre em uma sala** para jogar e usar o chat.
-
----
-
-## Rotas principais do Backend
-
-- `POST /api/inserir` — Cadastro de usuário
-- `POST /api/entrar` — Login de usuário
-- `POST /api/name_change` — Alterar nome do usuário
-
----
-
-## Configuração do Caminho do Front-End (Opcional)
+## Configuração do Caminho do Front-End 
 
 O backend pode servir arquivos estáticos (HTML, CSS, JS, imagens) de qualquer pasta do seu computador, inclusive de um repositório diferente do backend.
 
@@ -139,14 +124,14 @@ O backend pode servir arquivos estáticos (HTML, CSS, JS, imagens) de qualquer p
 #### No Windows (PowerShell)
 
 ```powershell
-$env:FRONTEND_PATH="C:\Users\rogério\Desktop\praia new repository\praia"
+$env:FRONTEND_PATH="/caminho/absoluto/para/pasta/do/front"
 npm run dev
 ```
 
 #### No Windows (Prompt de Comando - cmd.exe)
 
 ```cmd
-set FRONTEND_PATH=C:\Users\rogério\Desktop\praia new repository\praia
+set FRONTEND_PATH=/caminho/absoluto/para/pasta/do/front
 npm run dev
 ```
 
@@ -157,75 +142,5 @@ export FRONTEND_PATH="/caminho/absoluto/para/pasta/do/front"
 npm run dev
 ```
 
-2. **Estrutura esperada da pasta do front-end**
-
-A pasta definida em `FRONTEND_PATH` deve conter os arquivos e subpastas do seu front-end, por exemplo:
-
-```
-praia/
-├── app/
-│   ├── index.html
-│   ├── login/
-│   │   └── login.html
-│   └── signin/
-│       └── signin.html
-├── imagens/
-│   └── exemplo.jpg
-├── css/
-│   └── style.css
-└── js/
-    └── script.js
-```
-
-3. **Referencie arquivos estáticos no HTML**
-
-Use caminhos relativos à raiz, por exemplo:
-
-```html
-<img src="/imagens/exemplo.jpg" />
-<link rel="stylesheet" href="/css/style.css" />
-<script src="/js/script.js"></script>
-```
-
-4. **Acesse as páginas no navegador**
-
-- `http://localhost:8081/` → `app/index.html`
-- `http://localhost:8081/login` → `app/login/login.html`
-- `http://localhost:8081/signin` → `app/signin/signin.html`
-- `http://localhost:8081/about` → `app/about/about.html`
 
 ---
-
-## Boas Práticas e Observações
-
-- **Sempre acesse o frontend pela porta 5173** para garantir que o token do localStorage seja usado corretamente.
-- **Assets** (imagens, sprites, sons) devem estar em `/public/assets` e referenciados como `/assets/...` no código.
-- **Não use caminhos absolutos com hostname** (ex: `http://localhost:8081/...`) no frontend; use `/api/...` para chamadas de API.
-- **Senhas** são armazenadas como hash no banco de dados.
-- **Variáveis de ambiente:**  
-  - Para servir o frontend pelo backend, defina `FRONTEND_PATH` no `.env` do backend (opcional).
-- **Scripts JS** devem estar em arquivos separados, não inline no HTML.
-- **Centralize animações e estilos globais** em um único arquivo CSS.
-- Certifique-se de que o Docker e o container do PostgreSQL estejam rodando antes de iniciar o servidor.
-- Os logs do servidor aparecem no terminal onde você rodou o Node.js.
-
----
-
-## Testes
-
-- Teste o fluxo completo: login → seleção de sala → entrada no jogo → chat.
-- Verifique o console do navegador para erros de carregamento de arquivos (404).
-- Teste em diferentes ambientes para garantir que caminhos relativos funcionam.
-
----
-
-## Contribuição
-
-Pull requests são bem-vindos!  
-Abra uma issue para discutir mudanças ou melhorias.
-
----
-
-## Licença
-
-MIT

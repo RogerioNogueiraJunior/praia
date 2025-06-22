@@ -4,19 +4,17 @@ document.addEventListener("DOMContentLoaded", animateClouds);
 
 // Entrar no jogo
 document.getElementById('enterButton').addEventListener('click', async e => {
-    const nome = JSON.parse(localStorage.getItem('user')).nome;
-    const userId = JSON.parse(localStorage.getItem('user')).id;
     const token = localStorage.getItem('token');
     if (!token) {
         alert('Token não encontrado no localStorage!');
         return;
     }
 
-    fetch(`http://localhost:8081/api/transportar-token?token=${encodeURIComponent(token)}&user=${encodeURIComponent(nome)}&userId=${encodeURIComponent(userId)}`)
+    fetch(`http://localhost:8081/api/transportar-token?token=${encodeURIComponent(token)}`)
         .then(res => res.json())
         .then(data => {
-        if (data.token,  data.user) {
-            window.location.href = `http://localhost:5173/roomSelect.html?token=${encodeURIComponent(data.token)}&user=${encodeURIComponent(nome)}&userId=${encodeURIComponent(userId)}`;
+        if (data.token) {
+            window.location.href = `http://localhost:5173/roomSelect.html?token=${encodeURIComponent(data.token)}`;
         } else {
             console.log('Erro ao enviar token: ' + (data.error || 'Resposta inesperada'));
         }
