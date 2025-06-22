@@ -139,14 +139,14 @@ O backend pode servir arquivos estáticos (HTML, CSS, JS, imagens) de qualquer p
 #### No Windows (PowerShell)
 
 ```powershell
-$env:FRONTEND_PATH="C:\Users\rogério\Desktop\praia new repository\praia"
+$env:FRONTEND_PATH="/caminho/absoluto/para/pasta/do/front"
 npm run dev
 ```
 
 #### No Windows (Prompt de Comando - cmd.exe)
 
 ```cmd
-set FRONTEND_PATH=C:\Users\rogério\Desktop\praia new repository\praia
+set FRONTEND_PATH=/caminho/absoluto/para/pasta/do/front
 npm run dev
 ```
 
