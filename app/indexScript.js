@@ -13,7 +13,7 @@ document.getElementById('enterButton').addEventListener('click', async e => {
     fetch(`http://localhost:8081/api/transportar-token?token=${encodeURIComponent(token)}`)
         .then(res => res.json())
         .then(data => {
-        if (data.token) {
+        if (data.token, data.user) {
             window.location.href = `http://localhost:5173/roomSelect.html?token=${encodeURIComponent(data.token)}`;
         } else {
             console.log('Erro ao enviar token: ' + (data.error || 'Resposta inesperada'));

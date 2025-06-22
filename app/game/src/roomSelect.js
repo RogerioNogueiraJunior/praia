@@ -25,7 +25,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   localStorage.setItem('token', token);
-  localStorage.setItem('user', payload.nome || 'Desconhecido');
+  localStorage.setItem('user', payload.nome);
   localStorage.setItem('userId', payload.id.toString());
 });
 
